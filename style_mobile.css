@@ -1,0 +1,326 @@
+body {
+    background-image: url("background_resized.png");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-family: "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	margin: 0;
+}
+
+@keyframes ScaleAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0.95);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+@keyframes BackScaleAnimation {
+    0% {
+        transform: scale(0.95);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes BackBtnFloatingAnimation {
+    0% {
+        transform: scale(0.97);
+        background-color: rgba(0, 0, 0, 0.4);
+		letter-spacing: 7px;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes BtnFloatingAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0.97);
+        background-color: rgba(0, 0, 0, 0.4);
+		letter-spacing: 7px;
+    }
+}
+
+@keyframes BeginAnimationForTitleBar {
+    0% {
+        top: -7%;
+    }
+
+    100% {
+        top: 0;
+    }
+}
+
+@keyframes BeginAnimationForTextLeft {
+    0% {
+        left: inherit;
+        text-shadow: 1px 1px 2px black, 0 0 1em black, 0 0 0.2em black;
+    }
+
+    100% {
+        left: calc(inherit + 6%);
+    }
+}
+
+@keyframes Opacity {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes BeginAnimationForTextRight {
+    0% {
+        left: 60%;
+    }
+
+    100% {
+        left: 50%;
+    }
+}
+
+.titlebar {
+    position: fixed;
+    margin: 0 0 0 0;
+    min-width: 100%;
+    max-width: 100%;
+    height: 60px;
+    top: 0;
+    left: 0;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    /* box-shadow: 1px 1px 1px #000, 0 0 0.5em #000, 0 0 0.1em #000; */
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.titlebar h3 {
+    margin-left: 2%;
+    color: #fff;
+    min-width: 160px;
+    text-shadow: 1px 1px 2px black, 0 0 1em black, 0 0 0.2em black;
+}
+
+.tools {
+    /*position: absolute;
+    top: 0;
+    right: 20px;*/
+    margin-left: auto;
+    margin-right: 20px; 
+    margin-top: 5px;
+    /*width: 100%;*/
+    height: 80%;
+    /* box-shadow: 1px 1px 1px #000, 0 0 0.5em #000, 0 0 0.1em #000; */
+    animation: BeginAnimation 0.5s forwards ease-in-out;
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.tools #home {
+    display: inline-block;
+    background-color: #00000000;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    /*position: fixed;
+    top: 1%;
+    animation: BeginAnimationForTool 0.5s forwards ease-in-out;
+    right: 20%;*/
+}
+
+.tools #home:hover {
+    animation: ScaleAnimation 0.3s forwards ease-in-out;
+}
+
+.tools #home:not(:hover) {
+    animation: BackScaleAnimation 0.3s forwards ease-in-out;
+}
+
+.tools #question {
+    display: inline-block;
+    background-color: #00000000;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    /*position: fixed;
+    top: 1%;
+    animation: BeginAnimationForTool 0.5s forwards ease-in-out;
+    right: 14%;*/
+}
+
+.tools #question:hover {
+    animation: ScaleAnimation 0.3s forwards ease-in-out;
+}
+
+.tools #question:not(:hover) {
+    animation: BackScaleAnimation 0.3s forwards ease-in-out;
+}
+
+.tools #repo {
+    display: inline-block;
+    background-color: #00000000;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    /*position: fixed;
+    top: 1%;
+    animation: BeginAnimationForTool 0.5s forwards ease-in-out;
+    right: 8%;*/
+}
+
+.tools #repo:hover {
+    animation: ScaleAnimation 0.3s forwards ease-in-out;
+}
+
+.tools #repo:not(:hover) {
+    animation: BackScaleAnimation 0.3s forwards ease-in-out;
+}
+
+.info {
+    /*position: absolute;
+    top: 0;
+    left: 0;*/
+    width: 100%;
+    height: auto;
+    color: #fff;
+}
+
+.profile {
+    /*position: absolute;
+    top: 0;
+    left: 0;*/
+    display: flex;
+	flex-direction: column;
+    min-height: 100%;
+    min-width: 100%;
+	max-width: 100%
+}
+
+.profile .bigtitle {
+    /*left: 15%;*/
+    height: auto;
+    max-width: 100%;
+    text-align: left;
+}
+
+.profile h2 {
+    position: relative;
+    left: 15%;
+    font-size: 4rem;
+    opacity: 0;
+    max-width: 75%;
+    animation: Opacity 0.75s ease-in-out forwards, BeginAnimationForTextLeft 0.5s ease-in-out forwards;
+    margin: 0;
+}
+
+.profile .info {
+    /*position: absolute;*/
+    /*top: 80%;*/
+    /*left: 50%;*/
+    max-width: calc(100%-56);
+	width: 100%;
+    height: auto;
+    border-radius: 0px;
+    background-color: rgba(0, 0, 0, 0.2);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    color: #fff;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:0px 0px 28px 28px;
+    margin: 0;
+    animation: Opacity 0.75s ease-in-out forwards, BeginAnimationForTextRight 0.5s ease-in-out forwards;
+}
+
+.profile .info h4 {
+    color: #fff;
+    margin: 0;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+}
+
+.profile .link_button {
+    background-color: #ffffff30;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+	width: 95%;
+	position: relative;
+	top: 20px;
+	text-align: center;
+    /*animation: BeginAnimationForTool 0.5s forwards ease-in-out;*/
+	letter-spacing: 4px;
+}
+
+.profile .link_button:hover {
+    animation: BtnFloatingAnimation 0.3s forwards ease-in-out;
+}
+
+.profile .link_button:not(:hover) {
+    animation: BackBtnFloatingAnimation 0.3s forwards ease-in-out;
+}
+
+.profile #info_row {
+	display: flex; 
+	flex-direction: column; 
+	position: relative; 
+	left: 0; 
+	max-width: 100%;
+}
+
+.profile #info_left {
+	width: 100%;
+	max-width: 100%;
+}
+
+.profile #info_right {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+}
+
+.profile .info #sym {
+	max-width: 100%;
+	min-width: auto;
+}
+
+footer {
+    width: 100%;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.2);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    /*position: absolute;
+    bottom: -100px;
+    left: 0;*/
+    text-align: center;
+    justify-content: center;
+    color: #fff;
+    flex-direction: row;
+}
