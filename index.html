@@ -38,9 +38,6 @@
       sanitize: false,
       smartLists: true,
       smartypants: false,
-      highlight: function (code,lang) {
-          //使用 highlight 插件解析文档中代码部分
-          return hljs.highlightAuto(code,[lang]).value;
       }
   });
   let text = marked($(".markdown").text());

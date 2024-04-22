@@ -48,6 +48,7 @@ function make_item_selected(item,file_url) {
         document.getElementById("item_selected").id = "";
     }
     item.id = "item_selected";
+    document.getElementById('viewer').innerHTML = "<h1 style='text-align: center;'>请稍候</h1><p style='text-align: center;'>若长时间无响应请重新选择文档</p>";
     http.get(file_url, function (err, result) {
         document.getElementById('viewer').innerHTML = marked(result);
     });
