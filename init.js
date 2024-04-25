@@ -44,7 +44,7 @@ http.post = function (option, callback) {
 };
 
 function get_en_file_url(file_name, callback) {
-    http.get("https://api.github.com/repos/autismsupport/meetings-record/contents/recordsen/"+file_name, function (err, result) {
+    http.get("https://api.github.com/repos/autismsupport/meetings-record/contents/records_en/"+file_name, function (err, result) {
         console.log(err);
         console.log(result);
         if (err!="status: 404") {
