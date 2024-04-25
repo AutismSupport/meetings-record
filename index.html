@@ -15,12 +15,13 @@
   </div>
   <div style="min-width: 100%; max-width: 100%; min-height: calc(100% - 60px); max-height: calc(100% - 60px); display: flex; flex-direction: row;">
     <div class="sidebar">
-      <h1>会议纪要</h1>
+      <h1 id="page_title">会议纪要</h1>
       <p style="height: 10px;" />
       <div>
-      <h2>目录</h2>
+      <h2 id="table_of_contents_title">目录</h2>
       <ul id="table_of_contents"></ul>
       </div>
+      <p id="lang_btn" onclick="switch_lang();">切换语言 / Switch Language</p>
     </div>
     <div class="mainpart">
       <div class="markdown" id="viewer"></div>

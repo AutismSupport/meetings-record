@@ -1,5 +1,6 @@
 console.log("init.js Started");
 
+window.use_english = false
 
 var http = {};
 http.quest = function (option, callback) {
@@ -42,18 +43,98 @@ http.post = function (option, callback) {
   this.quest(option, callback);
 };
 
-function make_item_selected(item,file_url) {
+function get_en_file_url(file_name, callback) {
+    http.get("https://api.github.com/repos/autismsupport/meetings-record/contents/recordsen/"+file_name, function (err, result) {
+        console.log(err);
+        console.log(result);
+        if (err!="status: 404") {
+            if (!("message" in result)) {
+                callback(result["download_url"]);
+                return;
+            }
+        }
+        callback(false);
+    });
+}
+
+function get_cn_file_url (file_name, callback) {
+    http.get("https://api.github.com/repos/autismsupport/meetings-record/contents/records/"+file_name, function (err, result) {
+        console.log(result);
+        if (result.hasOwnProperty("message")) {
+            callback(false);
+        } else {
+            callback(result["download_url"]);
+        }
+    });
+}
+
+function get_file_url (item, file_name, en, callback) {
+    if (en) {
+        get_en_file_url(file_name, function (en_url) {
+            console.log(en_url);
+            if (en_url!=false) {
+                callback(en_url);
+            } else {
+                document.getElementById('viewer').innerHTML = "<div style='align-self: center; width: 100%;'><h1 style='text-align: center;'>Not Available Yet</h1><p style='text-align: center;'>We haven't done the translation of the document you selected.</p></div>";
+            }
+        });
+    } else {
+        get_cn_file_url(file_name, function (cn_url) {
+            console.log(cn_url);
+            if (cn_url!=false) {
+                callback(cn_url);
+            } else {
+                document.getElementById('viewer').innerHTML = "<div style='align-self: center; width: 100%;'><h1 style='text-align: center;'>\>_\<</h1><p style='text-align: center;'>哎呀！出错啦！</p></div>";
+            }
+        });
+    }
+}
+
+function make_item_selected(item,file_name,en=window.use_english) {
     //console.log(item);
     if (document.getElementById("item_selected") != null) {
         document.getElementById("item_selected").id = "";
     }
     item.id = "item_selected";
-    document.getElementById('viewer').innerHTML = "<h1 style='text-align: center;'>请稍候</h1><p style='text-align: center;'>若长时间无响应请重新选择文档</p>";
-    http.get(file_url, function (err, result) {
-        document.getElementById('viewer').innerHTML = marked(result);
+    if (!en) {
+        document.getElementById('viewer').innerHTML = "<div style='align-self: center; width: 100%;'><h1 style='text-align: center;'>请稍候</h1><p style='text-align: center;'>若长时间无响应请重新选择文档</p></div>";
+    } else {
+        document.getElementById('viewer').innerHTML = "<div style='align-self: center; width: 100%;'><h1 style='text-align: center;'>Loading</h1><p style='text-align: center;'>Please wait ...</p></div>";
+    }
+    get_file_url(item,file_name,en,function (file_url) {
+        http.get(file_url, function (err, result) {
+            document.getElementById('viewer').innerHTML = marked(result);
+        });
     });
 }
 
+function switch_lang() {
+    console.log(window.use_english)
+    if (!window.use_english) {
+        window.use_english = true;
+        document.getElementById('page_title').innerHTML = 'Meetings Record';
+        document.getElementById('table_of_contents_title').innerHTML = 'Table of Contents';
+        if (document.getElementById("item_selected") == null) {
+            document.getElementById('viewer').innerHTML = "<div style='align-self: center; width: 100%;'><h1 style='text-align: center;'>Select a document from the left</h1><p style='text-align: center;'>Some translations might haven't been done yet</p></div>";
+        } else {
+            curr_item = document.getElementById("item_selected");
+            make_item_selected(curr_item, curr_item.innerHTML, true);
+        }
+    } else {
+        window.use_english = false;
+        document.getElementById('page_title').innerHTML = '会议纪要';
+        document.getElementById('table_of_contents_title').innerHTML = '目录';
+        if (document.getElementById("item_selected") == null) {
+            document.getElementById('viewer').innerHTML = "<div style='align-self: center; width: 100%;'><h1 style='text-align: center;'>从右侧选择一篇文档来查看</h1><p style='text-align: center;'>若暂无文档请等待加载完毕</p></div>";
+        } else {
+            curr_item = document.getElementById("item_selected");
+            make_item_selected(curr_item, curr_item.innerHTML, false);
+        }
+    }
+}
+
+
+//window.use_english = false;
 
 http.get('https://api.github.com/repos/autismsupport/meetings-record/contents/records', function (err, result) {
     console.log(result);
@@ -62,7 +143,7 @@ http.get('https://api.github.com/repos/autismsupport/meetings-record/contents/re
         let li = document.createElement("li");
         li.append(document.createTextNode(file["name"]));
         li.className = "item";
-        li.onclick = function () {make_item_selected(li,file["download_url"]);};
+        li.onclick = function () {make_item_selected(li,file["name"]);};
         let ul = document.getElementById("table_of_contents");
         //console.log(ul.children)
         ul.append(li);
@@ -85,5 +166,7 @@ http.get('https://api.github.com/repos/autismsupport/meetings-record/contents/re
     })
 });
 
+document.getElementById('viewer').innerHTML = "<div style='align-self: center; width: 100%;'><h1 style='text-align: center;'>从右侧选择一篇文档来查看</h1><p style='text-align: center;'>若暂无文档请等待加载完毕</p></div>";
+//document.getElementById("lang_btn").onclick = function () {switch_lang();}
 
 console.log("init.js Done");
